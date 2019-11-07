@@ -32,6 +32,13 @@ jobs:
           name: Initialize build directory
           command: TEMPLATECONF=../meta-this/conf source poky/oe-init-build-env build
       - run:
+          name: Build python3
+          command: source poky/oe-init-build-env build && bitbake python3
+      - save_cache:
+          key: sstate-test-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - "build/sstate-cache/"
+      - run:
           name: Build labgrid
           command: source poky/oe-init-build-env build && bitbake python3-labgrid
       - save_cache:
